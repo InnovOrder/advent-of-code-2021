@@ -15,6 +15,6 @@ For exemple, a Typescript project for AoC for the member awesome-member, will ha
     - package.json
     - node_modules
     - src
-        - 1
-        - 2
+        - 01
+        - 02
         - ...
