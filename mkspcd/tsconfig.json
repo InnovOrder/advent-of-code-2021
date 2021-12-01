@@ -19,6 +19,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "module": "CommonJS",
-    "types": ["node", "express"]
+    "types": ["node"]
   }
 }
