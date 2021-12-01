@@ -1,23 +1,10 @@
-import fs from 'fs'
 import path from 'path'
-import { pipe } from 'fp-ts/lib/function'
-
-type FileName = string
-type Input = number []
+import { FileName, Input } from '../types'
+import { utils } from '../utils'
 
 const INPUT_FILE: FileName = path.join(__dirname, 'input.txt')
 
-function readData(file: FileName): Input {
-  return pipe(
-    file,
-    fs.readFileSync,
-    s => s.toString('utf8'),
-    s => s.split('\n'),
-    arr => arr.map(n => parseInt(n, 10)),
-  )
-}
-
-const input: Input = readData(INPUT_FILE)
+const input: Input = utils.readData(INPUT_FILE)
 
 function largerMeasurements(input: Input): number {
   let count = 0
@@ -37,5 +24,7 @@ function slidingLargerMeasurements(input: Input): number {
   return largerMeasurements(slidingInputs)
 }
 
-export const resultA = largerMeasurements(input)
-export const resultB = slidingLargerMeasurements(input)
+export function run01(): void {
+  console.log('Larger Measurements::', largerMeasurements(input))
+  console.log('Sliding Larger Measurements::', slidingLargerMeasurements(input))
+}

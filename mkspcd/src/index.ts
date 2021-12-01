@@ -1,4 +1,15 @@
-import { resultA, resultB } from './day-01'
+import { run01 } from './day-01'
 
-console.log('resultA::', resultA)
-console.log('resultB::', resultB)
+type Solutions = {
+  1: () => void
+}
+
+const solutions: Solutions = {
+  1: run01,
+}
+
+function run(puzzle: keyof Solutions) {
+  return solutions[puzzle]()
+}
+
+run(1)
