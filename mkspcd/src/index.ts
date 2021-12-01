@@ -1,3 +1,4 @@
-import { result } from './day-01'
+import { resultA, resultB } from './day-01'
 
-console.log(result)
+console.log('resultA::', resultA)
+console.log('resultB::', resultB)

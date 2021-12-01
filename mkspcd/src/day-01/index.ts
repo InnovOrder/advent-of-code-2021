@@ -17,14 +17,25 @@ function readData(file: FileName): Input {
   )
 }
 
-function largerMeasurements(file: FileName): number {
-  let input: Input = readData(file)
-  let count = 0
+const input: Input = readData(INPUT_FILE)
 
+function largerMeasurements(input: Input): number {
+  let count = 0
+  
   for (let i = 1; i < input.length; i++)
     if (input[i] > input[i - 1]) count++
-
+  
   return count
 }
 
-export const result = largerMeasurements(INPUT_FILE)
+function slidingLargerMeasurements(input: Input): number {
+  let slidingInputs: Input = []
+
+  for (let i = 2; i < input.length; i++)
+    slidingInputs.push(input[i] + input[i - 1] + input[i - 2])
+
+  return largerMeasurements(slidingInputs)
+}
+
+export const resultA = largerMeasurements(input)
+export const resultB = slidingLargerMeasurements(input)
