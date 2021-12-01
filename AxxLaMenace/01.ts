@@ -16,4 +16,4 @@ for (let i = 3; i < data.length; i++) {
     slidingCount++;
   }
 }
-console.log("slidingCount", slidingCount); // 1266
+console.log("slidingCount", slidingCount); // 1217
