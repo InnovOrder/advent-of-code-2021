@@ -15,22 +15,40 @@ def formatDirections(directions):
     return formattedDirections
 
 def partOne(directions):
-    horizontalCount = 0
-    verticalCount = 0
+    horizontalPosition = 0
+    depth = 0
 
     for direction in directions:
         if direction["direction"] == "forward":
-            horizontalCount += direction["vector"]
+            horizontalPosition += direction["vector"]
         elif direction["direction"] == "up":
-            verticalCount -= direction["vector"]
+            depth -= direction["vector"]
         elif direction["direction"] == "down":
-            verticalCount += direction["vector"]
+            depth += direction["vector"]
         else:
             print("I should not be here")
     
-    return horizontalCount * verticalCount
+    return horizontalPosition * depth
+
+def partTwo(directions):
+    horizontalPosition = 0
+    depth = 0
+    aim = 0
+
+    for direction in directions:
+        if direction["direction"] == "forward":
+            horizontalPosition += direction["vector"]
+            depth += direction["vector"] * aim
+        elif direction["direction"] == "up":
+            aim -= direction["vector"]
+        elif direction["direction"] == "down":
+            aim += direction["vector"]
+        else:
+            print("I should not be here")
+    
+    return horizontalPosition * depth
 
 formattedDirections = formatDirections(directions)
 
-partOneResult = partOne(formattedDirections)
-print(partOneResult)
+print(partOne(formattedDirections))
+print(partTwo(formattedDirections))
