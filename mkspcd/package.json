@@ -5,8 +5,7 @@
   "license": "UNLICENSED",
   "description": "My solutions to Advent of Code 2021",
   "scripts": {
-    "dev": "tsnd --respawn ./src/index.ts",
-    "plop": "plop"
+    "dev": "tsnd --respawn ./src/index.ts"
   },
   "dependencies": {
     "fp-ts": "^2.11.5",
@@ -17,7 +16,6 @@
   },
   "devDependencies": {
     "@types/node": "^16.11.11",
-    "plop": "^3.0.1",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.5.2"
   }
