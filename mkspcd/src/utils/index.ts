@@ -1,13 +1,13 @@
 import fs from 'fs'
 import { pipe } from 'fp-ts/lib/function'
-import { FileName, Input } from '../types'
+import { FileName, MeasurementsInput } from '../types'
 
 type Utils = {
-  readData: (file: FileName) => Input
+  readMeasurementsData: (file: FileName) => MeasurementsInput
 }
 
 export const utils: Utils = {
-  readData: function(file: FileName): Input {
+  readMeasurementsData: function (file: FileName): MeasurementsInput {
     return pipe(
       file,
       fs.readFileSync,
