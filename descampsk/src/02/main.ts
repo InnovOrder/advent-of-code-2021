@@ -1,6 +1,9 @@
 import { readInputs } from "../helpers/read-inputs";
 
-const resolvePuzzle = async (inputPath: string) => {
+const TEST_INPUT_PATH = `${__dirname}/input.test`;
+const INPUT_PATH = `${__dirname}/input.test`;
+
+const resolveFirstPuzzle = async (inputPath: string) => {
   const lines = await readInputs(inputPath);
   const directionAndUnits = lines.map((line) => {
     const lineSplitted = line.split(" ");
@@ -63,17 +66,18 @@ const resolveSecondPuzzle = async (inputPath: string) => {
 };
 
 const main = async () => {
-  const resultTest = await resolvePuzzle("./src//02/input.test");
-  console.log(resultTest);
-  const resultFirstPuzzle = await resolvePuzzle("./src//02/input");
-  console.log(resultFirstPuzzle);
+  const resultFirstPuzzleTest = await resolveFirstPuzzle(TEST_INPUT_PATH);
+  console.log("The result of the first puzzle test is:", resultFirstPuzzleTest);
+  const resultFirstPuzzle = await resolveFirstPuzzle(INPUT_PATH);
+  console.log("The result of the first puzzle is: ", resultFirstPuzzle);
 
-  const resultTestSecondPuzzle = await resolveSecondPuzzle(
-    "./src//02/input.test"
+  const resultSecondPuzzleTest = await resolveSecondPuzzle(TEST_INPUT_PATH);
+  console.log(
+    "The result of the second puzzle test is:",
+    resultSecondPuzzleTest
   );
-  console.log(resultTestSecondPuzzle);
-  const resultSecondPuzzle = await resolveSecondPuzzle("./src//02/input");
-  console.log(resultSecondPuzzle);
+  const resultSecondPuzzle = await resolveSecondPuzzle(INPUT_PATH);
+  console.log("The result of the second puzzle is: ", resultSecondPuzzle);
 };
 
 main().catch((error) => {
