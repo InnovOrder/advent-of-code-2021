@@ -3,7 +3,7 @@ import { readInputs } from "../helpers/read-inputs";
 const isIncreased = (previous: number, next: number) => previous < next;
 
 const resolveFirstPuzzle = async () => {
-  const lines = await readInputs("./1/input.txt");
+  const lines = await readInputs("./src/01/input.txt");
   let increased = 0;
   if (lines.length > 1) {
     for (let i = 1; i < lines.length; i += 1) {
@@ -16,7 +16,7 @@ const resolveFirstPuzzle = async () => {
 };
 
 const resolveSecondPuzzle = async () => {
-  const linesString = await readInputs("./1/input.txt");
+  const linesString = await readInputs("./src//01/input.txt");
   const lines = linesString.map((lineString) => parseInt(lineString, 10));
   let increased = 0;
   if (lines.length > 1) {

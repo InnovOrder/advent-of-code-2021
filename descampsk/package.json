@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "resolve": "ts-node ./src/${DAY:=01}/main.ts",
+    "plop": "plop",
     "prettier:fix": "prettier --write ."
   },
   "author": "",
@@ -19,6 +21,7 @@
     "eslint-config-recommended": "^4.1.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-prettier": "^4.0.0",
+    "plop": "^3.0.1",
     "prettier": "2.4.1",
     "prettier-eslint": "13.0.0",
     "ts-node": "^10.4.0",
