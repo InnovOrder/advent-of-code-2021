@@ -2,7 +2,6 @@ import { readInputs } from "../helpers/read-inputs";
 
 const resolveFirstPuzzle = async () => {
   const linesString = await readInputs("./02/02.data.txt");
-  console.log("first line", linesString[0]);
   let horizontal = 0;
   let depth = 0;
   linesString.forEach((lineString) => {
