@@ -1,6 +1,6 @@
 export type FileName = string
 
-export type MeasurementInput = number[]
+export type Measurement = number
 
 export type DirectionInput = {
   direction: string,
