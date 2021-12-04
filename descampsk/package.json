@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "resolve": "ts-node ./src/${DAY:=01}/main.ts",
     "plop": "plop",
-    "prettier:fix": "prettier --write ."
+    "p": "prettier --write ."
   },
   "author": "",
   "license": "ISC",
