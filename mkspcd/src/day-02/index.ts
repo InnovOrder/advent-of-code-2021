@@ -1,50 +1,54 @@
 import path from 'path'
-import { DirectionInputs, FileName, Position } from '../types'
-import { utils } from '../utils'
+import { Command, FileName, Position } from '../types'
+import { decoder, reader } from '../utils'
+import { pipe } from 'fp-ts/lib/function'
 
 const INPUT_FILE: FileName = path.join(__dirname, 'input.txt')
 
-const input: DirectionInputs = utils.readDirectionsData(INPUT_FILE)
+const commands: Command[] = pipe(
+  reader.fromFile(INPUT_FILE),
+  data => decoder.toCommands(data),
+)
 
-function finalPositionAndFinalDepth(input: DirectionInputs): Position {
+function finalPositionAndFinalDepth(commands: Command[]): Position {
   let depth = 0
   let horizontal = 0
 
-  for (let i = 0; i < input.length; i++) {
-    if (input[i].direction === 'forward') {
-      horizontal += input[i].distance
-    } else if (input[i].direction === 'down') {
-      depth = depth + input[i].distance
-    } else if (input[i].direction === 'up') {
-      depth = depth - input[i].distance
+  for (let i = 0; i < commands.length; i++) {
+    if (commands[i].direction === 'forward') {
+      horizontal += commands[i].distance
+    } else if (commands[i].direction === 'up') {
+      depth = depth - commands[i].distance
+    } else if (commands[i].direction === 'down') {
+      depth = depth + commands[i].distance
     }
   }
 
   return { horizontal, depth }
 }
 
-function finalPositionAndFinalDepthWithAim(input: DirectionInputs): Position {
+function finalPositionAndFinalDepthWithAim(commands: Command[]): Position {
   let aim = 0
   let depth = 0
   let horizontal = 0
 
-  for (let i = 0; i < input.length; i++) {
-    if (input[i].direction === 'forward') {
-      horizontal += input[i].distance
-      depth = depth + aim * input[i].distance
-    } else if (input[i].direction === 'down') {
-      aim = aim + input[i].distance
-    } else if (input[i].direction === 'up') {
-      aim = aim - input[i].distance
+  for (let i = 0; i < commands.length; i++) {
+    if (commands[i].direction === 'forward') {
+      horizontal += commands[i].distance
+      depth = depth + aim * commands[i].distance
+    } else if (commands[i].direction === 'up') {
+      aim = aim - commands[i].distance
+    } else if (commands[i].direction === 'down') {
+      aim = aim + commands[i].distance
     }
-
   }
+
   return { horizontal, depth }
 }
 
 export function run02(): void {
-  const resultPart1 = finalPositionAndFinalDepth(input)
-  const resultPart2 = finalPositionAndFinalDepthWithAim(input)
+  const resultPart1 = finalPositionAndFinalDepth(commands)
+  const resultPart2 = finalPositionAndFinalDepthWithAim(commands)
 
   console.log('\nFinal Position And Final Depth::')
   console.log('\tHorizontal Position:', resultPart1.horizontal)
