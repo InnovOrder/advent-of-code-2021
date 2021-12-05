@@ -1,13 +1,12 @@
 import { assertEquals } from "../../deps-dev.ts";
 import {
-  drawDiagonal,
   drawVentures,
   filterHorizontalAndVerticalAndDiagonalLines,
   filterHorizontalAndVerticalLines,
   formatLine,
   formatLines,
   generateGridOfNDimension,
-} from "./bingo.ts";
+} from "./ventures.ts";
 
 Deno.test("formatLine", async (t) => {
   await t.step("Given a line from file", async (t) => {
@@ -42,7 +41,7 @@ Deno.test("formatLines", async (t) => {
             ],
           ];
           assertEquals(formatLines(lines), expectedArray);
-        }
+        },
       );
     });
   });
@@ -80,7 +79,7 @@ Deno.test("filterHorizontalAndVerticalLines", async (t) => {
           ];
           assertEquals(filterHorizontalAndVerticalLines(lines), expectedArray);
         });
-      }
+      },
     );
   });
 });
@@ -143,11 +142,11 @@ Deno.test("filterHorizontalAndVerticalAndDiagonalLines", async (t) => {
             ];
             assertEquals(
               filterHorizontalAndVerticalAndDiagonalLines(lines),
-              expectedArray
+              expectedArray,
             );
-          }
+          },
         );
-      }
+      },
     );
   });
 });
@@ -182,7 +181,7 @@ Deno.test("generateGridOfNDimension", async (t) => {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       ];
-      let generatedGrid = generateGridOfNDimension(10);
+      const generatedGrid = generateGridOfNDimension(10);
       generatedGrid[4][4] = 1;
 
       assertEquals(generatedGrid, expectedGrid);
@@ -211,7 +210,6 @@ Deno.test("drawLines", async (t) => {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       ];
-      const ventures: number[][] = [];
       await t.step("Then it should draw the horizontal ventures", () => {
         const expectedVentures = [
           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -249,7 +247,7 @@ Deno.test("drawLines", async (t) => {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       ];
-      const ventures: number[][] = [];
+
       await t.step("Then it should draw the vertical ventures", () => {
         const expectedVentures = [
           [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -293,7 +291,7 @@ Deno.test("drawLines", async (t) => {
           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         ];
-        const ventures: number[][] = [];
+
         await t.step(
           "Then it should draw the ventures and a 2 should appear at crossing",
           () => {
@@ -311,9 +309,9 @@ Deno.test("drawLines", async (t) => {
             ];
             const ventures = drawVentures(lines, initialGrid);
             assertEquals(ventures, expectedVentures);
-          }
+          },
         );
-      }
+      },
     );
   });
 });
