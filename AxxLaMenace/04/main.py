@@ -1,6 +1,6 @@
 # COMMON FUNCTIONS
 def create_grids(blocks):
-    return [[[num for num in row.split()] for row in block.split('\n')] for block in blocks[1:]]
+    return [[[num for num in row.split()] for row in block.split('\n')] for block in blocks]
 
 def mark_number_in_grid(grid, num):
     return [[elem+"*" if elem == num else elem for elem in row] for row in grid]
@@ -16,7 +16,7 @@ def sum_unmarked_numbers(grid):
 # PART 1
 def first_puzzle(blocks):
     number_inputs = blocks[0].split(',')
-    grids = create_grids(blocks)
+    grids = create_grids(blocks[1:])
     for number in number_inputs:
         for g in range(len(grids)):
             grids[g]=mark_number_in_grid(grids[g], number)
@@ -27,7 +27,7 @@ def first_puzzle(blocks):
 # PART 2
 def second_puzzle(blocks):
     number_inputs = blocks[0].split(',')
-    grids = create_grids(blocks)
+    grids = create_grids(blocks[1:])
     for number in number_inputs:
         elems_to_delete = []
         for g in range(len(grids)):
@@ -41,7 +41,7 @@ def second_puzzle(blocks):
             return sum, number, sum*int(number)
 
 if __name__ == '__main__':
-    file = open("04/04.data.txt", "r")
+    file = open("04/data.txt", "r")
     blocks = file.read().split('\n\n')
     print("result first_puzzle:", first_puzzle(blocks))
     print("result second:", second_puzzle(blocks))
