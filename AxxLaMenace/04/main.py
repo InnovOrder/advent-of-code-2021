@@ -43,6 +43,6 @@ def second_puzzle(blocks):
 if __name__ == '__main__':
     file = open("04/data.txt", "r")
     blocks = file.read().split('\n\n')
-    print("result first_puzzle:", first_puzzle(blocks))
-    print("result second:", second_puzzle(blocks))
+    print("result first puzzle:", first_puzzle(blocks))
+    print("result second puzzle:", second_puzzle(blocks))
     file.close()

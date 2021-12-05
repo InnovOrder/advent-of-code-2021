@@ -29,6 +29,6 @@ def solve_puzzle(lines, consider_diagonals=False):
 if __name__ == '__main__':
     file = open("05/data.txt", "r")
     lines = file.read().split('\n')
-    print("result first_puzzle:", solve_puzzle(lines, consider_diagonals=False))
-    print("result second_puzzle:", solve_puzzle(lines, consider_diagonals=True))
+    print("result first puzzle:", solve_puzzle(lines, consider_diagonals=False))
+    print("result second puzzle:", solve_puzzle(lines, consider_diagonals=True))
     file.close()
