@@ -1,13 +1,13 @@
 export type FileName = string
 
-export type MeasurementInput = number[]
+export type Measurement = number
 
-export type DirectionInput = {
-  direction: string,
+export type Direction = 'forward' | 'up' | 'down'
+
+export type Command = {
+  direction: Direction,
   distance: number,
 }
-
-export type DirectionInputs = DirectionInput[]
 
 export type Position = {
   horizontal: number,
