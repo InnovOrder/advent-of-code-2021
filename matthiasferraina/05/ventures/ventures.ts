@@ -24,18 +24,18 @@ export function formatLines(lines: string[]): Point[][] {
 
 export function filterHorizontalAndVerticalLines(lines: Point[][]): Point[][] {
   return lines.filter(
-    (line: Point[]) => line[0].x === line[1].x || line[0].y === line[1].y
+    (line: Point[]) => line[0].x === line[1].x || line[0].y === line[1].y,
   );
 }
 
 export function filterHorizontalAndVerticalAndDiagonalLines(
-  lines: Point[][]
+  lines: Point[][],
 ): Point[][] {
   return lines.filter(
     (line: Point[]) =>
       line[0].x === line[1].x ||
       line[0].y === line[1].y ||
-      Math.abs(line[0].x - line[1].x) === Math.abs(line[0].y - line[1].y)
+      Math.abs(line[0].x - line[1].x) === Math.abs(line[0].y - line[1].y),
   );
 }
 
@@ -58,26 +58,21 @@ export function drawVentures(lines: Point[][], grid: Grid): Grid {
       const diagonalLength = Math.abs(line[0].y - line[1].y);
       for (let i = 0; i <= diagonalLength; i++) {
         if (line[0].x < line[1].x) {
-          if(line[0].y < line[1].y){
+          if (line[0].y < line[1].y) {
             newGrid[line[0].y + i][line[0].x + i] += 1;
-          }else{
+          } else {
             newGrid[line[0].y - i][line[0].x + i] += 1;
           }
-        }else{
-          if(line[0].y > line[1].y){
+        } else {
+          if (line[0].y > line[1].y) {
             newGrid[line[0].y - i][line[0].x - i] += 1;
-          }else{
+          } else {
             newGrid[line[0].y + i][line[0].x - i] += 1;
           }
-        } 
+        }
       }
     }
   });
-  return newGrid;
-}
-
-export function drawDiagonal(line: Point[], grid: Grid): Grid {
-  const newGrid: Grid = [...grid];
   return newGrid;
 }
 

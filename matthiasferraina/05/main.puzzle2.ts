@@ -3,7 +3,7 @@ import {
   filterHorizontalAndVerticalAndDiagonalLines,
   formatLines,
   generateGridOfNDimension,
-} from "./bingo/bingo.ts";
+} from "./ventures/ventures.ts";
 
 export function puzzle2(data: string[]): number {
   // format data
@@ -15,7 +15,7 @@ export function puzzle2(data: string[]): number {
   const initialVenturesGrid = generateGridOfNDimension(1000);
   const ventures = drawVentures(
     verticalAndHorizontalLines,
-    initialVenturesGrid
+    initialVenturesGrid,
   );
 
   let count = 0;
