@@ -1,4 +1,4 @@
-import { readInputs } from "../helpers/read-inputs";
+import { readFile } from "fs/promises";
 
 function createPoints(line: string) {
   const [point1, point2] = line.split(" -> ");
@@ -7,18 +7,10 @@ function createPoints(line: string) {
   return [xA, yA, xB, yB];
 }
 
-function computePointsInSegment(
-  points: number[],
-  considerDiagonals: Boolean = false
-) {
-  const xA = points[0];
-  const yA = points[1];
-  const xB = points[2];
-  const yB = points[3];
-  const xMin = Math.min(xA, xB);
-  const xMax = Math.max(xA, xB);
-  const yMin = Math.min(yA, yB);
-  const yMax = Math.max(yA, yB);
+function computeSegment(points: number[], considerDiagonals: Boolean = false) {
+  const [xA, yA, xB, yB] = points;
+  const [xMin, xMax] = [Math.min(xA, xB), Math.max(xA, xB)];
+  const [yMin, yMax] = [Math.min(yA, yB), Math.max(yA, yB)];
   let pointsInSegment = [];
   if (xA == xB) {
     for (let y = yMin; y <= yMax; y++) {
@@ -30,11 +22,9 @@ function computePointsInSegment(
     }
   } else if (considerDiagonals && yMax - yMin == xMax - xMin) {
     for (let i = 0; i <= xMax - xMin; i++) {
-      pointsInSegment.push(
-        `${xA + (i * (xB - xA)) / Math.abs(xB - xA)},${
-          yA + (i * (yB - yA)) / Math.abs(yB - yA)
-        }`
-      );
+      const gradX = (xB - xA) / Math.abs(xB - xA);
+      const gradY = (yB - yA) / Math.abs(yB - yA);
+      pointsInSegment.push(`${xA + i * gradX},${yA + i * gradY}`);
     }
   }
   return pointsInSegment;
@@ -43,25 +33,19 @@ function computePointsInSegment(
 const solvePuzzle = (lines: string[], considerDiagonals: Boolean = false) => {
   const countDict: Record<string, number> = {};
   lines.forEach((line) => {
-    const points = createPoints(line);
-    const pointsInSegment = computePointsInSegment(points, considerDiagonals);
-    pointsInSegment.forEach((point) => {
+    const segmentPoints = computeSegment(createPoints(line), considerDiagonals);
+    segmentPoints.forEach((point) => {
       countDict[point] = point in countDict ? countDict[point] + 1 : 1;
     });
   });
-  const sumValues = Object.values(countDict).reduce(
-    (a, b) => (b >= 2 ? a + 1 : a),
-    0
-  );
-  return sumValues;
+  return Object.values(countDict).reduce((a, b) => (b >= 2 ? a + 1 : a), 0);
 };
 
 const main = async () => {
-  const lines = await readInputs("./05/data.txt");
+  const file = await readFile("./05/data.txt", "utf-8");
+  const lines = file.split(/\n/);
   console.log("result first puzzle:", solvePuzzle(lines, false));
   console.log("result second puzzle:", solvePuzzle(lines, true));
 };
 
-main().catch((error) => {
-  console.error(error);
-});
+main();
