@@ -1,9 +1,5 @@
 from collections import Counter
 
-def create_counter(line):
-    numbers = [int(item) for item in line.split(',')]
-    return Counter(numbers)
-
 def fishes_spawn(counter):
     spawns = counter.get(0, 0)
     counter[0] = 0
@@ -13,11 +9,10 @@ def fishes_spawn(counter):
     return new_counter
 
 def solve_puzzle(line, days):
-    counter = create_counter(line)
+    counter = Counter([int(item) for item in line.split(',')])
     for _ in range(days):
         counter = fishes_spawn(counter)
     return sum(counter.values())
-
 
 if __name__ == '__main__':
     file = open("06/data.txt", "r")

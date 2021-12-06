@@ -30,7 +30,7 @@ function computeSegment(points: number[], considerDiagonals: Boolean = false) {
   return segmentPoints;
 }
 
-const solvePuzzle = (lines: string[], considerDiagonals: Boolean = false) => {
+function solvePuzzle(lines: string[], considerDiagonals: Boolean = false) {
   const countDict: Record<string, number> = {};
   lines.forEach((line) => {
     const segmentPoints = computeSegment(createPoints(line), considerDiagonals);
@@ -39,13 +39,13 @@ const solvePuzzle = (lines: string[], considerDiagonals: Boolean = false) => {
     });
   });
   return Object.values(countDict).reduce((a, b) => (b >= 2 ? a + 1 : a), 0);
-};
+}
 
-const main = async () => {
+async function main() {
   const file = await readFile("./05/data.txt", "utf-8");
   const lines = file.split(/\n/);
   console.log("result first puzzle:", solvePuzzle(lines, false));
   console.log("result second puzzle:", solvePuzzle(lines, true));
-};
+}
 
 main();
