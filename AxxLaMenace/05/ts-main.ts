@@ -11,23 +11,23 @@ function computeSegment(points: number[], considerDiagonals: Boolean = false) {
   const [xA, yA, xB, yB] = points;
   const [xMin, xMax] = [Math.min(xA, xB), Math.max(xA, xB)];
   const [yMin, yMax] = [Math.min(yA, yB), Math.max(yA, yB)];
-  let pointsInSegment = [];
+  let segmentPoints = [];
   if (xA == xB) {
     for (let y = yMin; y <= yMax; y++) {
-      pointsInSegment.push(`${xA},${y}`);
+      segmentPoints.push(`${xA},${y}`);
     }
   } else if (yA == yB) {
     for (let x = xMin; x <= xMax; x++) {
-      pointsInSegment.push(`${x},${yA}`);
+      segmentPoints.push(`${x},${yA}`);
     }
   } else if (considerDiagonals && yMax - yMin == xMax - xMin) {
     for (let i = 0; i <= xMax - xMin; i++) {
       const gradX = (xB - xA) / Math.abs(xB - xA);
       const gradY = (yB - yA) / Math.abs(yB - yA);
-      pointsInSegment.push(`${xA + i * gradX},${yA + i * gradY}`);
+      segmentPoints.push(`${xA + i * gradX},${yA + i * gradY}`);
     }
   }
-  return pointsInSegment;
+  return segmentPoints;
 }
 
 const solvePuzzle = (lines: string[], considerDiagonals: Boolean = false) => {

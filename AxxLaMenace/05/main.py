@@ -1,22 +1,15 @@
 def create_points(line):
     point1, point2 = line.split(" -> ")
-    xA, yA = [int(elem) for elem in point1.split(',')]
-    xB, yB = [int(elem) for elem in point2.split(',')]
+    [xA, yA], [xB, yB] = [int(elem) for elem in point1.split(',')], [int(elem) for elem in point2.split(',')]
     return xA, yA, xB, yB
 
 def compute_points_in_segment(xA, yA, xB, yB, consider_diagonals=False):
-    xMin = min(xA, xB)
-    xMax = max(xA, xB)
-    yMin = min(yA, yB)
-    yMax = max(yA, yB)
-    if xA==xB:
-        return [f"{xA},{y}" for y in range(yMin, yMax+1)]
-    elif yA==yB:
-        return [f"{x},{yA}" for x in range(xMin, xMax+1)]
+    xMin, xMax, yMin, yMax = min(xA, xB), max(xA, xB), min(yA, yB), max(yA, yB)
+    if xA==xB: return [f"{xA},{y}" for y in range(yMin, yMax+1)]
+    elif yA==yB: return [f"{x},{yA}" for x in range(xMin, xMax+1)]
     elif consider_diagonals and yMax-yMin == xMax-xMin:
         return [f"{xA+i*(xB-xA)//abs(xB-xA)},{yA+i*(yB-yA)//abs(yB-yA)}" for i in range(xMax-xMin+1)]
-    else:
-        return []
+    else: return []
 
 def solve_puzzle(lines, consider_diagonals=False):
     countDict = {}
