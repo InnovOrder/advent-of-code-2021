@@ -12,7 +12,7 @@ fun main(args: Array<String>) {
     val toX = mutableListOf<Int>()
     val toY = mutableListOf<Int>()
 
-    for (i in   fromAndToPosition.indices) {
+    for (i in fromAndToPosition.indices) {
         fromX.add(Integer.parseInt(fromAndToPosition[i][0].split(",")[0].trim(), 10))
         fromY.add(Integer.parseInt(fromAndToPosition[i][0].split(",")[1].trim(), 10))
         toX.add(Integer.parseInt(fromAndToPosition[i][1].split(",")[0].trim(), 10))
@@ -60,14 +60,4 @@ fun computeCloud(cloud: MutableList<MutableList<Int>>, fromX: MutableList<Int>, 
         }
     }
     return cloud
-}
-
-
-fun printCloud(cloud: MutableList<MutableList<Int>>) {
-    for (i in cloud.indices) {
-        for (j in cloud[i].indices) {
-            print("${cloud[i][j]} ")
-        }
-        println("\n")
-    }
 }
