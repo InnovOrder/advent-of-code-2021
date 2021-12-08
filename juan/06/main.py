@@ -1,32 +1,35 @@
 import data
+import exampleData
 
 
 lanternfishes = data.lanternfishes
 
-""" PART ONE """
+def computeNumberOfFishesPerDay(lanternfishes):
+    numberOfFishesPerDay = [0] * 9
 
-def decreaseLanternFishes(lanternfishes):
-    updatedLanternfishes = []
-
-    for index in range(len(lanternfishes)):
-        lanternfish = lanternfishes[index]
-
-        if lanternfish > 0:
-            updatedLanternfishes.append(lanternfish - 1)
-        else:
-            updatedLanternfishes.append(6)
-            updatedLanternfishes.append(8)
+    for fish in lanternfishes:
+        numberOfFishesPerDay[fish] += 1
     
-    return updatedLanternfishes
-    
+    return numberOfFishesPerDay
 
-def partOne(lanternfishes, numberOfDays):
-    updatedLanternfishes = lanternfishes
-    for i in range(numberOfDays):
-        print(f"Day {i + 1}")
-        updatedLanternfishes = decreaseLanternFishes(updatedLanternfishes)
-    
-    return updatedLanternfishes
 
-lanternfishes = partOne(lanternfishes, 256)
-print(len(lanternfishes))
+def updateFishesPerDay(numberOfFishesPerDay):
+    updatedFishesPerDay = [
+        *numberOfFishesPerDay[1:], numberOfFishesPerDay[0]]
+    
+    updatedFishesPerDay[6] += numberOfFishesPerDay[0]
+
+    return updatedFishesPerDay
+
+
+def partOneAndTwo(lanternfishes, days):
+    numberOfFishesPerDay = computeNumberOfFishesPerDay(lanternfishes)
+
+    for day in range(days):
+        numberOfFishesPerDay = updateFishesPerDay(numberOfFishesPerDay)
+    
+    return sum(numberOfFishesPerDay)
+
+
+print(partOneAndTwo(lanternfishes, 80))
+print(partOneAndTwo(lanternfishes, 256))
