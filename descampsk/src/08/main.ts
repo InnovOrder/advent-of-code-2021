@@ -1,21 +1,22 @@
-import { readInputs } from "../helpers/read-inputs";
+import { resolveSecondPuzzleWithBruteForce } from "./brute";
+import { checkUniqueCombination, decodeInput } from "./common";
+import { resolveSecondPuzzleSmart } from "./smart";
 
 const TEST_INPUT_PATH = `${__dirname}/input.test`;
 const INPUT_PATH = `${__dirname}/input`;
 
-const decodeInput = async (inputPath: string) => {
-  const lines = await readInputs(inputPath);
-  return lines;
-};
-
 const resolveFirstPuzzle = async (inputPath: string) => {
   const decodedInputs = await decodeInput(inputPath);
-  return 0;
-};
-
-const resolveSecondPuzzle = async (inputPath: string) => {
-  const decodedInputs = await decodeInput(inputPath);
-  return 0;
+  let appearance = 0;
+  decodedInputs.forEach(({ outputs }) => {
+    outputs.forEach((segment) => {
+      const uniqueCombination = checkUniqueCombination(segment);
+      if (uniqueCombination) {
+        appearance += 1;
+      }
+    });
+  });
+  return appearance;
 };
 
 const main = async () => {
@@ -24,13 +25,31 @@ const main = async () => {
   const resultFirstPuzzle = await resolveFirstPuzzle(INPUT_PATH);
   console.log("The result of the first puzzle is: ", resultFirstPuzzle);
 
-  const resultSecondPuzzleTest = await resolveSecondPuzzle(TEST_INPUT_PATH);
+  const resultSecondPuzzleTest = await resolveSecondPuzzleWithBruteForce(
+    TEST_INPUT_PATH
+  );
   console.log(
     "The result of the second puzzle test is:",
     resultSecondPuzzleTest
   );
-  const resultSecondPuzzle = await resolveSecondPuzzle(INPUT_PATH);
-  console.log("The result of the second puzzle is: ", resultSecondPuzzle);
+
+  console.time("brute-force");
+  const resultSecondPuzzle = await resolveSecondPuzzleWithBruteForce(
+    INPUT_PATH
+  );
+  console.log(
+    "The result with brute force of the second puzzle is: ",
+    resultSecondPuzzle
+  );
+  console.timeEnd("brute-force");
+
+  console.time("smart");
+  const resultSmartSecondPuzzle = await resolveSecondPuzzleSmart(INPUT_PATH);
+  console.log(
+    "The result with smart of the second puzzle is: ",
+    resultSmartSecondPuzzle
+  );
+  console.timeEnd("smart");
 };
 
 main().catch((error) => {
