@@ -8,7 +8,7 @@ def nb_common_letters(word1, word2):
     return len(set(word1).intersection(word2))
 
 def class_words_by_length(words):
-    return {length: [word for word in words if len(word) == length] for length in range(2, 8)}
+    return {length: [w for w in words if len(w) == length] for length in {len(w) for w in words}}
 
 def create_dict_permutations(words_by_length):
     d = {}
@@ -24,7 +24,7 @@ def create_dict_permutations(words_by_length):
     d['0'] = [word for word in words_by_length[6] if word not in [d['6'], d['9']]][0]
     return d
 
-def solve_second_puzzle_hard(lines):
+def solve_second_puzzle(lines):
     sum = 0
     for line in lines:
         input, output = line.split(' | ')
@@ -37,5 +37,19 @@ if __name__ == '__main__':
     file = open("08/data.txt", "r")
     lines = file.read().split('\n')
     print("result first puzzle:", solve_first_puzzle(lines))
-    print("result second puzzle:", solve_second_puzzle_hard(lines))
+    print("result second puzzle:", solve_second_puzzle(lines))
     file.close()
+
+"""
+Explication part 2
+
+1) pour les digits faciles (1,4,7,8), on regarde le nombre de segments (par ex, 1=bc, 7=bgc, 4=abec, 8=bcadegf)
+2) Pour les trois digits qui ont 5 segments (les digits 2,3,5):
+    - le digit 3 a deux segments en commun avec le digit 1
+    - le digit 2 a deux segments en commun avec le digit 4
+    - le digit 5 est celui qui reste
+3) Pour les trois digits qui ont 6 segments (les digits 6,9,0):
+    - le digit 6 a un segment en commun avec le digit 1
+    - le digit 9 a 4 segments en commun avec le digit 4
+    - le digit 0 est celui qui reste
+"""
