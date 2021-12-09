@@ -25,5 +25,6 @@ module.exports = {
   rules: {
     "import/extensions": "off",
     "no-console": "off",
+    "import/prefer-default-export": "off",
   },
 };
