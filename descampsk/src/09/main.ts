@@ -1,21 +1,19 @@
+/* eslint-disable import/prefer-default-export */
 import { readInputs } from "../helpers/read-inputs";
+import { resolveFirstPuzzle } from "./firstPuzzle";
+import { resolveSecondPuzzle } from "./secondPuzzle";
 
 const TEST_INPUT_PATH = `${__dirname}/input.test`;
 const INPUT_PATH = `${__dirname}/input`;
 
-const decodeInput = async (inputPath: string) => {
+export const decodeInput = async (inputPath: string) => {
   const lines = await readInputs(inputPath);
-  return lines;
-};
-
-const resolveFirstPuzzle = async (inputPath: string) => {
-  const decodedInputs = await decodeInput(inputPath);
-  return 0;
-};
-
-const resolveSecondPuzzle = async (inputPath: string) => {
-  const decodedInputs = await decodeInput(inputPath);
-  return 0;
+  lines.pop();
+  const matrix: number[][] = [];
+  lines.forEach((line) => {
+    matrix.push([...line].map((number) => parseInt(number, 10)));
+  });
+  return matrix;
 };
 
 const main = async () => {
