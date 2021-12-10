@@ -5,7 +5,9 @@
   "license": "UNLICENSED",
   "description": "My solutions to Advent of Code 2021",
   "scripts": {
-    "dev": "tsnd --respawn ./src/index.ts"
+    "dev": "tsnd --respawn ./src/index.ts",
+    "test": "jest",
+    "test:watch": "npm run test -- --watch"
   },
   "dependencies": {
     "fp-ts": "^2.11.5",
@@ -15,8 +17,13 @@
     "newtype-ts": "^0.3.4"
   },
   "devDependencies": {
-    "@types/node": "^16.11.11",
+    "@types/faker": "^5",
+    "@types/jest": "^27.0.3",
+    "@types/node": "^16.11.12",
+    "faker": "^5.5.3",
+    "jest": "^27.4.4",
+    "ts-jest": "^27.1.1",
     "ts-node-dev": "^1.1.8",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.3"
   }
 }

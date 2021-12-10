@@ -6,8 +6,9 @@ import { pipe } from 'fp-ts/lib/function'
 const INPUT_FILE: FileName = path.join(__dirname, 'input.txt')
 
 const measurements: Measurement[] = pipe(
-  reader.fromFile(INPUT_FILE),
-  data => decoder.toMeasurements(data),
+  INPUT_FILE,
+  reader.fromFile,
+  decoder.toMeasurements,
 )
 
 function largerMeasurements(measurements: Measurement[]): number {
