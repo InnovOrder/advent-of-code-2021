@@ -6,8 +6,9 @@ import { pipe } from 'fp-ts/lib/function'
 const INPUT_FILE: FileName = path.join(__dirname, 'input.txt')
 
 const commands: Command[] = pipe(
-  reader.fromFile(INPUT_FILE),
-  data => decoder.toCommands(data),
+  INPUT_FILE,
+  reader.fromFile,
+  decoder.toCommands,
 )
 
 function finalPositionAndFinalDepth(commands: Command[]): Position {
