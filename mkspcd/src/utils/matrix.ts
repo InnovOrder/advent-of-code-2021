@@ -14,19 +14,33 @@ export const matrix = {
    * @returns an Array of number
    */
   sumColumns: function(matrix: Matrix): number[] {
-    return matrix.reduce((sumOfRows, currentRow) => {
+    const clone = matrix.map(function (arr) {
+      return arr.slice()
+    })
+
+    return pipe(
+      clone,
+      arr => arr.reduce((sumOfRows, currentRow) => {
       currentRow.forEach((val, i) => {
         sumOfRows[i] = sumOfRows[i] + val
       })
       return sumOfRows
-    })
+    }))
   },
 
-  getMostCommonBit: function(data: Matrix): number[] {
+  getMostCommonBitOnEachColumn: function(data: Matrix): number[] {
     return pipe(
       data,
       matrix.sumColumns,
       arr => arr.map(n => (n >= data.length / 2) ? 1 : 0),
     )
-  }
+  },
+
+  getLeastCommonBitOnEachColumn: function(data: Matrix): number[] {
+    return pipe(
+      data,
+      matrix.getMostCommonBitOnEachColumn,
+      arr => arr.map(n => (n === 0) ? 1 : 0),
+    )
+  },
 }

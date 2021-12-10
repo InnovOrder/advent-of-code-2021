@@ -13,3 +13,5 @@ export type Position = {
   horizontal: number,
   depth: number,
 }
+
+export type Matrix = number[][]

@@ -1,4 +1,6 @@
+export { converter } from './converter'
 export { decoder } from './decoder'
+export { matrix } from './matrix'
 export { reader } from './reader'
 
 type Utils = {
