@@ -12,13 +12,22 @@ fun main() {
     fun String.containsNoneOf(elements: Collection<String>): Boolean =
         elements.none { this.contains(it) }
 
+    fun String.excludingAllOf(excludingList: List<String>): String {
+        var result = this
+        excludingList.forEach {
+            result = result.split(it).joinToString("")
+        }
+        return result
+    }
+
     fun readInput(isTest: Boolean = false) =
         readInput("day10/Day10${if (isTest) "_test" else ""}")
 
     fun getScoreForLine(line: String, scoreForIncompleteLines: Boolean = false): Long {
         if (line.containsNoneOf(minimalChunks)) {
             return if (scoreForIncompleteLines) {
-                line
+                if (line.any { it in openClosePairs.values }) 0
+                else line
                     .reversed()
                     .map { missingCharacterScores[it]!!.toLong() }
                     .fold(0L) { sum, charScore -> sum * 5 + charScore }
@@ -30,11 +39,7 @@ fun main() {
             }
         }
 
-        var result = line
-        minimalChunks.forEach {
-            result = result.split(it).joinToString("")
-        }
-        return getScoreForLine(result, scoreForIncompleteLines)
+        return getScoreForLine(line.excludingAllOf(minimalChunks), scoreForIncompleteLines)
     }
 
     fun part1(input: List<String>): Long {
@@ -43,8 +48,8 @@ fun main() {
 
     fun part2(input: List<String>): Long {
         val a = input
-            .filter { getScoreForLine(it) == 0L }
             .map { getScoreForLine(it, true) }
+            .filter { it > 0 }
             .sorted()
 
         return a[a.size / 2]
