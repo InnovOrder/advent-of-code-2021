@@ -1,12 +1,11 @@
 import math
 
 def find_minima(m): # m = matrix
-    return [(i, j, m[i][j]) for i in range(1, len(m)-1) for j in range(1, len(m[0])-1) \
+    return [(i, j, m[i][j]+1) for i in range(1, len(m)-1) for j in range(1, len(m[0])-1) \
         if m[i][j] == min(m[i][j], m[i+1][j], m[i-1][j], m[i][j+1], m[i][j-1])]
 
 def solve_first_puzzle(m):
-    minima = find_minima(m)
-    return sum([int(mini[2]) for mini in minima])+len(minima)
+    return sum([int(mini[2]) for mini in find_minima(m)])
 
 def surround_matrix_with_big_num(matrix, big_num=9):
     matrix = [[big_num]*len(matrix[0])] + matrix + [[big_num]*len(matrix[0])]
@@ -24,19 +23,13 @@ class Basin:
         for i,j in [(x-1,y), (x+1,y), (x,y-1), (x,y+1)]:
             if self.matrix[i][j] < 9 and (i, j) not in self.points and (i, j) not in self.neighbours:
                 self.neighbours.add((i,j))
-        self.add_point(x, y)
-    
-    def add_point(self, x, y):
         self.points.add((x, y))
-        if (x, y) in self.neighbours:
-            self.neighbours.remove((x, y))
-
 
 def solve_second_puzzle(m):
     minima = find_minima(m)
     basin_sizes = []
     for mini in minima:
-        x, y, val = mini
+        x, y, _ = mini
         b = Basin(m, (x, y))
         while b.neighbours:
             neighbour = b.neighbours.pop()
@@ -46,9 +39,6 @@ def solve_second_puzzle(m):
 
 if __name__ == '__main__':
     with open("09/data.txt") as f:
-        lines = f.read().split()
-        line_of_ten = [[10]*len(lines[0])]
-        matrix = [[int(char) for char in line] for line in lines]
-        matrix = surround_matrix_with_big_num(matrix)
+        matrix = surround_matrix_with_big_num([[int(num) for num in line.strip()] for line in f])
         print("result first puzzle:", solve_first_puzzle(matrix))
         print("result second puzzle:", solve_second_puzzle(matrix))
