@@ -8,22 +8,16 @@ def apply_fold(points, fold):
             new_point[dir] = 2*value - point[dir]
             new_points.add(tuple(new_point))
             points_to_remove.add(point)
-    points = set.union(points-points_to_remove, new_points)
-    return points
+    return points - points_to_remove | new_points
 
 def display_points(points):
     xMax = max(points ,key=lambda item:item[0])[0]
     yMax = max(points ,key=lambda item:item[1])[1]
     matrix = [['%' if (x,y) in points else ' ' for x in range(xMax+1)] for y in range(yMax+1)]
-    return '\n'.join([''.join(row) for row in matrix])
-
-def solve_first_puzzle(points, folds):
-    points = apply_fold(points, folds[0])
-    return len(points)
+    return ('\n'.join([''.join(row) for row in matrix]))
 
 def solve_second_puzzle(points, folds):
-    for fold in folds:
-        points = apply_fold(points, fold)
+    for fold in folds: points = apply_fold(points, fold)
     return display_points(points)
 
 if __name__ == '__main__':
@@ -31,5 +25,5 @@ if __name__ == '__main__':
         blocks = f.read().split('\n\n')
         points = {tuple([int(n) for n in line.split(',')]) for line in blocks[0].split('\n')}
         folds = [line.replace('fold along ', '').split('=') for line in blocks[1].split('\n')]
-        print("result first puzzle:", solve_first_puzzle(points, folds))
+        print("result first puzzle:", len(apply_fold(points, folds[0])))
         print("result second puzzle:", solve_second_puzzle(points, folds), sep='\n')

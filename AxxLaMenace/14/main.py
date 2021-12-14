@@ -1,0 +1,54 @@
+from collections import Counter
+from collections import defaultdict
+
+def step1(s, rules):
+    s2 = s
+    for i in range(len(s)-1, 0, -1):
+        elem = s[i-1]+s[i]
+        if elem in rules:
+            s2 = s2[:i] + rules[elem] + s2[i:]
+    return s2
+
+def solve_puzzle_basic(s, rules, steps):
+    for _ in range(steps):
+        s = step1(s, rules)
+    c = Counter(s).most_common()
+    max = c[0]
+    min = c[:-2:-1][0]
+    return max[1] - min[1]
+
+def step2(occurences, rules):
+    occurences_add = defaultdict(int)
+    occurences_reset = defaultdict(int)
+    for duo in rules:
+        a,b = duo
+        c = rules[duo]
+        val = occurences[duo]
+        occurences_reset[duo] = 0
+        occurences_add[a+c] += val
+        occurences_add[c+b] += val
+    return defaultdict(int, Counter({**occurences, **occurences_reset}) + Counter(occurences_add))
+
+def get_letter_counts(occurences, start, end):
+    d = defaultdict(int)
+    d[start] = d[end] = 1
+    for duo, num in occurences.items():
+        for letter in duo:
+            d[letter] += num
+    d = { letter: num//2 for letter, num in d.items()}
+    return d
+
+def solve_puzzle_optimized(s, rules, steps):
+    occurences = defaultdict(int, { s[i]+s[i+1]: s.count(s[i]+s[i+1]) for i in range(0, len(s)-1)})
+    for _ in range(steps):
+        occurences = step2(occurences, rules)
+    counts = get_letter_counts(occurences, s[0], s[-1])
+    return max(counts.values()) - min(counts.values())
+
+if __name__ == '__main__':
+    with open("14/data.txt") as f:
+        blocks = f.read().split('\n\n')
+        template = blocks[0]
+        rules = { asso[0]: asso[1] for asso in [line.split(' -> ') for line in blocks[1].split('\n')]}
+        print("result first puzzle:", solve_puzzle_basic(template, rules, 10))
+        print("result second puzzle:", solve_puzzle_optimized(template, rules, 40))
