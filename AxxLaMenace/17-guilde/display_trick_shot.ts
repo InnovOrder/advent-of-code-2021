@@ -58,7 +58,12 @@ function displayMatrix(matrix: string[]): void {
 function step(x: number, y: number, vx: number, vy: number) {
   x += vx;
   y += vy;
-  vx = vx ? ((Math.abs(vx) - 1) * vx) / Math.abs(vx) : 0;
+  // vx = vx ? ((Math.abs(vx) - 1) * vx) / Math.abs(vx) : 0;
+  if (vx < 0) {
+    vx += 1;
+  } else if (vx > 0) {
+    vx -= 1;
+  }
   vy -= 1;
   return [x, y, vx, vy];
 }
@@ -80,10 +85,10 @@ function attempt(
       yReach = y;
     }
     if (xMin <= x && x <= xMax && yMin <= y && y <= yMax) {
-      return ["SUCCESS", yReach];
+      return [true, yReach];
     }
   }
-  return ["FAIL", null];
+  return [false, null];
 }
 
 function getMaxRowAndColumn(points: number[][], target: number[][]) {
@@ -102,12 +107,20 @@ function main(vx: number, vy: number) {
   const target: number[][] = getTarget();
   const points: number[][] = [[0, 0]];
   const [result, yReach] = attempt(vx, vy, points, target);
-  const [nbCols, nbRows, origin] = getMaxRowAndColumn(points, target);
-  const matrix = createMatrix(nbCols, nbRows, origin, points, target);
-  displayMatrix(matrix);
   return [result, yReach];
 }
 
-const [result, yReach] = main(17, 3);
-console.log("result", result);
-console.log("yReach", yReach);
+let nbResults = 0;
+const [[xMin, xMax], [yMin, yMax]] = getTarget();
+for (let vx = 0; vx <= xMax; vx++) {
+  for (let vy = yMin; vy <= Math.abs(yMin); vy++) {
+    const [success, yReach] = main(vx, vy);
+    if (success) {
+      nbResults += 1;
+    }
+  }
+}
+
+const vy_start = -yMin - 1;
+console.log("first puzzle solution is", (vy_start * (vy_start + 1)) / 2);
+console.log("second puzzle solution is", nbResults);
