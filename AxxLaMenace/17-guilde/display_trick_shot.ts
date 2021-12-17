@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 
 function getTarget(): number[][] {
-  const line = readFileSync("./guilde/data.txt", "utf-8");
+  const line = readFileSync("./17-guilde/data.txt", "utf-8");
   const split: string[] = line.replace("target area: x=", "").split(", y=");
   const target = split.map((elem) => {
     return elem.split("..").map((num) => parseInt(num, 10));
@@ -108,6 +108,6 @@ function main(vx: number, vy: number) {
   return [result, yReach];
 }
 
-const [result, yReach] = main(6, 3);
+const [result, yReach] = main(17, 3);
 console.log("result", result);
 console.log("yReach", yReach);
