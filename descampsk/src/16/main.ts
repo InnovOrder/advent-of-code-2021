@@ -1,21 +1,30 @@
 import { readInputs } from "../helpers/read-inputs";
+import { decodeHexa } from "./helpers";
 
 const TEST_INPUT_PATH = `${__dirname}/input.test`;
 const INPUT_PATH = `${__dirname}/input`;
 
 const decodeInput = async (inputPath: string) => {
   const lines = await readInputs(inputPath);
-  return lines;
+  return lines[0];
 };
 
 const resolveFirstPuzzle = async (inputPath: string) => {
-  const decodedInputs = await decodeInput(inputPath);
-  return 0;
+  const hexa = await decodeInput(inputPath);
+  const { versions, types, numbers } = decodeHexa(hexa);
+  console.log(types);
+  console.log(numbers);
+  let sum = 0;
+  versions.forEach((version) => {
+    sum += version;
+  });
+  return sum;
 };
 
 const resolveSecondPuzzle = async (inputPath: string) => {
-  const decodedInputs = await decodeInput(inputPath);
-  return 0;
+  const hexa = await decodeInput(inputPath);
+  const { value } = decodeHexa(hexa);
+  return value;
 };
 
 const main = async () => {
