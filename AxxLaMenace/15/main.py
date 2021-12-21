@@ -50,8 +50,8 @@ if __name__ == '__main__':
     start_time = time.time()
     matrix = np.matrix(data)
     big_matrix = create_big_matrix(matrix, 5)
-    # solve_puzzle(matrix)
-    solve_puzzle(big_matrix)
+    solve_puzzle(matrix)
+    # solve_puzzle(big_matrix)
     print("--- %s seconds ---" % (time.time() - start_time))
 
 
