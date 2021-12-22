@@ -9,86 +9,108 @@ const decodeInput = async (inputPath: string): Promise<number[][]> => {
   return lines.map((line) => [...line].map((number) => parseInt(number, 10)));
 };
 
-let completeMinLowestPath = 10000;
-let numberOfPathFound = 0;
+const buildFullMap = (matrix: number[][]) => {
+  const fullMatrix: number[][] = JSON.parse(JSON.stringify(matrix));
+  const lengthI = matrix.length;
+  const lengthJ = matrix[0].length;
 
-const findLowestRiskPath = (
-  { x, y }: { x: number; y: number },
-  sum: number,
-  matrix: number[][]
-): number => {
-  if (x === matrix.length - 1 && y === matrix[x].length - 1) {
-    const fullSum = sum + matrix[x][y];
-    numberOfPathFound += 1;
-    if (numberOfPathFound % 10 === 0) {
-      console.log("numberOfPathFound", numberOfPathFound);
-      console.log("fullSum", fullSum);
-      console.log("completeMinLowestPath", completeMinLowestPath);
+  for (let i = 0; i < matrix.length * 5; i++) {
+    for (let j = 0; j < 5; j++) {
+      if (j === 0 && i >= lengthI) {
+        const newLine = fullMatrix[i - lengthI]
+          .slice(0, lengthI)
+          .map((number) => {
+            if (number === 9) {
+              return 1;
+            }
+            return number + 1;
+          });
+        fullMatrix.push(newLine);
+      } else if (j > 0) {
+        const newLine = fullMatrix[i]
+          .slice((j - 1) * lengthJ, j * lengthJ)
+          .map((number) => {
+            if (number === 9) {
+              return 1;
+            }
+            return number + 1;
+          });
+        fullMatrix[i].push(...newLine);
+      }
     }
+  }
+  return fullMatrix;
+};
 
-    if (fullSum < completeMinLowestPath) {
-      completeMinLowestPath = fullSum;
+const dijtstraAlgorithm = (matrix: number[][]) => {
+  const updatedMatrix: number[][] = new Array(matrix.length)
+    .fill(0)
+    .map(() => new Array(matrix[0].length).fill(0));
+  const visited = JSON.parse(JSON.stringify(updatedMatrix));
+  const nextCases: number[][] = [];
+  let currentCase = [0, 0];
+  while (
+    currentCase &&
+    currentCase[0] !== matrix.length &&
+    currentCase[1] !== matrix[0].length
+  ) {
+    const x = currentCase[0];
+    const y = currentCase[1];
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        const xToUpdate = x + i;
+        const yToUpdate = y + j;
+        if (
+          (i !== 0 || j !== 0) &&
+          (xToUpdate !== 0 || yToUpdate !== 0) &&
+          Math.abs(i) !== Math.abs(j) &&
+          xToUpdate >= 0 &&
+          xToUpdate < matrix.length &&
+          yToUpdate >= 0 &&
+          yToUpdate < matrix[0].length &&
+          !visited[x + i][yToUpdate]
+        ) {
+          const newValue = matrix[xToUpdate][yToUpdate] + updatedMatrix[x][y];
+          updatedMatrix[xToUpdate][yToUpdate] = newValue;
+          nextCases.push([xToUpdate, yToUpdate, newValue]);
+          visited[xToUpdate][yToUpdate] = 1;
+        }
+      }
     }
-    return fullSum;
+    nextCases.sort((a, b) => a[2] - b[2]);
+    [currentCase] = nextCases;
+    nextCases.shift();
   }
-
-  if (sum > completeMinLowestPath) {
-    return 10000;
-  }
-
-  const rightLowestRiskPath =
-    y + 1 < matrix[x].length
-      ? findLowestRiskPath({ x, y: y + 1 }, sum + matrix[x][y], matrix)
-      : 10000;
-
-  const downLowestRiskPath =
-    x + 1 < matrix[x].length
-      ? findLowestRiskPath({ x: x + 1, y }, sum + matrix[x][y], matrix)
-      : 10000;
-
-  const upLowestRiskPath =
-    x - 1 < matrix[x].length
-      ? findLowestRiskPath({ x: x - 1, y }, sum + matrix[x][y], matrix)
-      : 10000;
-
-  const leftLowestRiskPath =
-    y - 1 < matrix[x].length
-      ? findLowestRiskPath({ x, y: y - 1 }, sum + matrix[x][y], matrix)
-      : 10000;
-
-  const min = Math.min(rightLowestRiskPath, downLowestRiskPath);
-  return min < 10000 ? min : sum;
+  return updatedMatrix;
 };
 
 const resolveFirstPuzzle = async (inputPath: string) => {
   const matrix = await decodeInput(inputPath);
-  const lowestRiskPath = findLowestRiskPath({ x: 0, y: 0 }, 0, matrix);
-  return completeMinLowestPath - matrix[0][0];
+  const updatedMatrix = dijtstraAlgorithm(matrix);
+  return updatedMatrix[updatedMatrix.length - 1][updatedMatrix[0].length - 1];
 };
 
 const resolveSecondPuzzle = async (inputPath: string) => {
-  const decodedInputs = await decodeInput(inputPath);
-  return 0;
+  const matrix = await decodeInput(inputPath);
+  const fullMatrix = buildFullMap(matrix);
+  const updatedMatrix = dijtstraAlgorithm(fullMatrix);
+  return updatedMatrix[updatedMatrix.length - 1][updatedMatrix[0].length - 1];
 };
 
 const main = async () => {
-  completeMinLowestPath = 100;
-  numberOfPathFound = 0;
   const resultFirstPuzzleTest = await resolveFirstPuzzle(TEST_INPUT_PATH);
   console.log("The result of the first puzzle test is:", resultFirstPuzzleTest);
 
-  // completeMinLowestPath = 700;
-  // numberOfPathFound = 0;
-  // const resultFirstPuzzle = await resolveFirstPuzzle(INPUT_PATH);
-  // console.log("The result of the first puzzle is: ", resultFirstPuzzle);
+  const resultFirstPuzzle = await resolveFirstPuzzle(INPUT_PATH);
+  console.log("The result of the first puzzle is: ", resultFirstPuzzle);
 
-  // const resultSecondPuzzleTest = await resolveSecondPuzzle(TEST_INPUT_PATH);
-  // console.log(
-  //   "The result of the second puzzle test is:",
-  //   resultSecondPuzzleTest
-  // );
-  // const resultSecondPuzzle = await resolveSecondPuzzle(INPUT_PATH);
-  // console.log("The result of the second puzzle is: ", resultSecondPuzzle);
+  const resultSecondPuzzleTest = await resolveSecondPuzzle(TEST_INPUT_PATH);
+  console.log(
+    "The result of the second puzzle test is:",
+    resultSecondPuzzleTest
+  );
+  const resultSecondPuzzle = await resolveSecondPuzzle(INPUT_PATH);
+  console.log("The result of the second puzzle is: ", resultSecondPuzzle);
 };
 
 main().catch((error) => {
